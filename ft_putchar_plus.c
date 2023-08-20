@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putchar_plus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:41:20 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/19 18:06:28 by habu-zua         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:58:08 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-void	ft_putchar_fd(char c, int fd)
+int	ft_putchar_plus(int c)
 {
-	write(fd, &c, 1);
+	char	ch;
+
+	ch = (char)c;
+	write(1, &ch, 1);
+	return(1);
 }
