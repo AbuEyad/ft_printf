@@ -6,73 +6,93 @@
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:18:54 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/19 18:07:35 by habu-zua         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:33:03 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libftprintf.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include "libftprintf.h"
 
-int	ft_printf(char *format, ...);
-static void	output(char c, va_list arglist);
+int				ft_printf(char *format, ...);
+static size_t	output(char c, va_list arglist);
 
 int	main(void)
 {
 	int	count;
 
 	count = 0;
-	ft_printf("this ");
-	// %s%d%c%d%d%s", "hisham", 10, 'H', -5, 5, "Eyad");
+	count = ft_printf("this %s %d", "hisham", 10);
+	printf("\ncount is: %d\n", count);
 	return (0);
 }
 
 int	ft_printf(char *format, ...)
 {
 	va_list	arglist;
+	size_t	count;
 
+	count = 0;
 	va_start(arglist, format);
 	while (*format != '\0')
 	{
 		if (*format == '%')
 		{
-			output(*(format + 1), arglist);
+			count += output(*(format + 1), arglist);
 			format++;
 		}
 		else
-			printf("%c", *format);
+		{
+			ft_putchar(*format);
+			count++;
+		}
 		format++;
 	}
 	va_end(arglist);
-	printf("\n");
-	return (0);
+	return (count);
 }
 
-static void	output(char c, va_list arglist)
+static size_t	output(char c, va_list arglist)
 {
 	int		d;
 	char	*s;
 	char	ch;
+	size_t	count;
+
+	count = 0;
+	d = 0;
+	if (c == 'd')
+		count += put_d(arglist);
+	else if (c == 's')
+		count += put_s(arglist);
+	else if (c == 'c')
+	{
+		ft_putchar(va_arg(arglist, int));
+		count++;
+	}
+	else if (c == '%') 
+	{
+		ft_putchar('%');
+		count++;
+	}
+	return (count);
+}
+
+static size_t	put_d(va_list arg)
+{
+	int	d;
 
 	d = 0;
-	if (c == 'd' || c == 's' || c == 'c')
-	{
-		if (c == 'd')
-		{
-			d = va_arg(arglist, int);
-			ft_putnbr_fd(d, 1);
-			ft_putchar_fd(' ', 1);
-		}
-		else if (c == 's')
-		{
-			s = va_arg(arglist, char *);
-			printf("%s ", s);
-		}
-		else if (c == 'c')
-		{
-			ch = va_arg(arglist, int);
-			printf("%c ", c);
-		}
-	}
+	d = va_arg(arg, int);
+	ft_putstr(ft_itoa(d));
+	return (ft_strlen(ft_itoa(d)));
+}
+
+static size_t	put_s(va_list arg)
+{
+	char	*s;
+
+	s = va_arg(arg, char *);
+	ft_putstr(s);
+	return (ft_strlen(s));
 }
