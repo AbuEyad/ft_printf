@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 12:18:25 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/20 10:44:09 by habu-zua         ###   ########.fr       */
+/*   Created: 2023/08/20 22:01:36 by habu-zua          #+#    #+#             */
+/*   Updated: 2023/08/21 11:16:25 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static void	out(char *s, int len, long n)
 {

@@ -1,12 +1,9 @@
-SRCS	= ft_printf.c ft_putchar.c ft_putnbr.c ft_putstr.c ft_itoa.c ft_strlen.c
-
-# SRCSB =	ft_lstnew.c	
+SRCS	= ft_printf.c ft_putchar_plus.c ft_putnbr_plus.c ft_putstr_plus.c ft_put_hex.c ft_put_u_int.c ft_put_ptr.c\
+			ft_itoa.c
 
 NAME = libftprintf.a
 
 OBJS = $(SRCS:.c=.o)
-
-# OBJSB = $(SRCSB:.c=.o)
 
 CC = cc
 
@@ -19,18 +16,12 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
-	# cd libft && $(MAKE)
-
-# bonus: $(OBJSB)
-# 	ar rcs $(NAME) $(OBJSB)
 
 clean:
-	rm -rf $(OBJS) $(OBJSB)
-	# cd libft && $(MAKE) clean
+	rm -rf $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
-	# cd libft && $(MAKE) fclean
 
 re: fclean all
 

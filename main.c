@@ -6,29 +6,29 @@
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:18:54 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/20 15:33:03 by habu-zua         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:14:52 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdarg.h>
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-int				ft_printf(char *format, ...);
-static size_t	output(char c, va_list arglist);
+int	ft_printf(char *format, ...);
+static int	output(char c, va_list arglist);
 
 int	main(void)
 {
 	int	count;
 
 	count = 0;
-	count = ft_printf("this %s %d", "hisham", 10);
-	printf("\ncount is: %d\n", count);
+	count = ft_printf("this %s%d%c%d%d%s   ", "hisham", 10, 'H', -5, 5, "Eyad");
+	ft_printf("%d\n", count);
 	return (0);
 }
 
 int	ft_printf(char *format, ...)
 {
+	int	count;
 	va_list	arglist;
 	size_t	count;
 
@@ -43,7 +43,7 @@ int	ft_printf(char *format, ...)
 		}
 		else
 		{
-			ft_putchar(*format);
+			ft_putchar_plus(*format);
 			count++;
 		}
 		format++;
@@ -52,47 +52,24 @@ int	ft_printf(char *format, ...)
 	return (count);
 }
 
-static size_t	output(char c, va_list arglist)
+static int	output(char c, va_list arglist)
 {
-	int		d;
-	char	*s;
-	char	ch;
-	size_t	count;
+	int	count;
 
 	count = 0;
-	d = 0;
-	if (c == 'd')
-		count += put_d(arglist);
+	if (c == 'c')
+		count += ft_putchar_plus(va_arg(arglist, int));
 	else if (c == 's')
-		count += put_s(arglist);
-	else if (c == 'c')
-	{
-		ft_putchar(va_arg(arglist, int));
-		count++;
-	}
-	else if (c == '%') 
-	{
-		ft_putchar('%');
-		count++;
-	}
+		count += ft_putstr_plus(va_arg(arglist, char *));
+	else if (c == 'd' || c == 'i')
+		count += ft_putnbr_plus((long)va_arg(arglist, int));
+	else if (c == 'u')
+		count += ft_put_u_int(va_arg(arglist, unsigned int));
+	else if (c == 'p')
+		count += ft_put_ptr(va_arg(arglist, uintptr_t));
+	else if (c == 'x' || c == 'X')
+		count += put_hex(va_arg(arglist, unsigned int), c);
+	else if (c == '%')
+		count += ft_putchar_plus('%');
 	return (count);
-}
-
-static size_t	put_d(va_list arg)
-{
-	int	d;
-
-	d = 0;
-	d = va_arg(arg, int);
-	ft_putstr(ft_itoa(d));
-	return (ft_strlen(ft_itoa(d)));
-}
-
-static size_t	put_s(va_list arg)
-{
-	char	*s;
-
-	s = va_arg(arg, char *);
-	ft_putstr(s);
-	return (ft_strlen(s));
 }

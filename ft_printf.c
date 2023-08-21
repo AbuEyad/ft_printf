@@ -6,19 +6,21 @@
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:20:49 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/20 14:17:30 by habu-zua         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:18:04 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static int	output(char c, va_list arglist);
 
 int	ft_printf(char *format, ...)
 {
+	int	count;
 	va_list	arglist;
 	size_t	count;
 
+	count = 0;
 	va_start(arglist, format);
 	while (*format != '\0')
 	{
@@ -29,7 +31,7 @@ int	ft_printf(char *format, ...)
 		}
 		else
 		{
-			ft_putchar(*format);
+			ft_putchar_plus(*format);
 			count++;
 		}
 		format++;
@@ -40,36 +42,22 @@ int	ft_printf(char *format, ...)
 
 static int	output(char c, va_list arglist)
 {
-	int		d;
-	char	*s;
-	char	ch;
-	size_t	count;
+	int	count;
 
 	count = 0;
-	d = 0;
-	if (c == 'd')
-	{
-		d = va_arg(arglist, int);
-		ft_putstr(ft_itoa(d));
-		count += ft_strlen(ft_itoa(d));
-	}
+	if (c == 'c')
+		count += ft_putchar_plus(va_arg(arglist, int));
 	else if (c == 's')
-	{
-		s = va_arg(arglist, char *);
-		ft_putstr(s);
-		count += ft_strlen(s);
-	}
-	else if (c == 'c')
-	{
-		ch = va_arg(arglist, int);
-		ft_putchar(ch);
-		count++;
-	}
-	else if (c == '%') 
-	{
-		ft_putchar('%');
-		count++;
-	}
-	printf("output count: %s\n", count);
+		count += ft_putstr_plus(va_arg(arglist, char *));
+	else if (c == 'd' || c == 'i')
+		count += ft_putnbr_plus((long)va_arg(arglist, int));
+	else if (c == 'u')
+		count += ft_put_u_int(va_arg(arglist, unsigned int));
+	else if (c == 'p')
+		count += ft_put_ptr(va_arg(arglist, uintptr_t));
+	else if (c == 'x' || c == 'X')
+		count += put_hex(va_arg(arglist, unsigned int), c);
+	else if (c == '%')
+		count += ft_putchar_plus('%');
 	return (count);
 }

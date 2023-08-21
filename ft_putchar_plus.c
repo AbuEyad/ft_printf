@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_plus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habu-zua <habu-zua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 15:22:07 by habu-zua          #+#    #+#             */
-/*   Updated: 2023/08/20 10:21:05 by habu-zua         ###   ########.fr       */
+/*   Created: 2023/07/20 14:41:20 by habu-zua          #+#    #+#             */
+/*   Updated: 2023/08/21 11:22:13 by habu-zua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-void	ft_putnbr(int n)
+int	ft_putchar_plus(int c)
 {
-	unsigned int	nbr;
+	char	ch;
 
-	if (n < 0)
-	{
-		ft_putchar('-');
-		nbr = (unsigned int)(n * -1);
-	}
-	else
-		nbr = (unsigned int)n;
-	if (nbr >= 10)
-		ft_putnbr(nbr / 10);
-	ft_putchar((char)(nbr % 10 + 48));
+	ch = (char)c;
+	write(1, &ch, 1);
+	return(1);
 }
